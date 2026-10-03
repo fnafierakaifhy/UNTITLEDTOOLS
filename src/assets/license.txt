@@ -1,0 +1,11 @@
+[UNTITLED] TOOLS
+
+This program is provided "as is", without warranty of any kind.
+
+Use it only on music you made yourself or that you have permission to save.
+You are responsible for how you use it and for following the rules of the
+sites you use it with.
+
+It reads the project page you point it at, saves the audio and a small amount
+of information about each song, and does not collect or send anything anywhere
+else.
