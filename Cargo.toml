@@ -1,0 +1,23 @@
+[package]
+name = "untitled-tools"
+version = "0.2.0"
+edition = "2021"
+description = "[UNTITLED] TOOLS - save audio + minimal metadata from untitled.stream project links"
+
+[dependencies]
+eframe = "=0.29.1"
+rfd = "0.14"
+ureq = "2"
+serde_json = "1"
+tiny_http = "0.12"
+getrandom = "0.2"
+tungstenite = "=0.24.0"
+lofty = "0.22"
+rodio = "0.19"
+image = { version = "0.25", default-features = false, features = ["png", "jpeg", "webp"] }
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 4
+strip = true
