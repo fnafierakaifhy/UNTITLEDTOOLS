@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  [UNTITLED] TOOLS installer (WiX v5 / v4 schema). Built by build-installer.ps1, which passes:
+    Version, Manufacturer, AssetsDir (icon.ico, banner.bmp, dialog.bmp, license.rtf), ExePath, ReadmePath
+  Installs for the current user only (no admin prompt) into %LocalAppData%\Programs\UNTITLED TOOLS.
+  The product name here has no square brackets on purpose: Windows Installer treats [ ] specially.
+-->
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+  <Package Name="UNTITLED TOOLS"
+           Manufacturer="$(var.Manufacturer)"
+           Version="$(var.Version)"
+           UpgradeCode="6C0B8E5A-3F6D-4C7B-9A53-2D1E8F4B7A91"
+           Scope="perUser"
+           Language="1033">
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of UNTITLED TOOLS is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <Icon Id="AppIcon.ico" SourceFile="$(var.AssetsDir)\icon.ico" />
+    <Property Id="ARPPRODUCTICON" Value="AppIcon.ico" />
+
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.AssetsDir)\license.rtf" />
+    <WixVariable Id="WixUIBannerBmp" Value="$(var.AssetsDir)\banner.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="$(var.AssetsDir)\dialog.bmp" />
+
+    <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER" />
+
+    <Feature Id="Main" Title="UNTITLED TOOLS" Level="1">
+      <ComponentGroupRef Id="AppComponents" />
+    </Feature>
+  </Package>
+
+  <Fragment>
+    <StandardDirectory Id="LocalAppDataFolder">
+      <Directory Id="ProgramsDir" Name="Programs">
+        <Directory Id="INSTALLFOLDER" Name="UNTITLED TOOLS" />
+      </Directory>
+    </StandardDirectory>
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Directory Id="AppMenuFolder" Name="UNTITLED TOOLS" />
+    </StandardDirectory>
+    <StandardDirectory Id="DesktopFolder" />
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="AppComponents">
+      <Component Id="MainExe" Directory="INSTALLFOLDER">
+        <File Id="MainExeFile" Source="$(var.ExePath)" KeyPath="yes" />
+      </Component>
+      <Component Id="ReadmeFile" Directory="INSTALLFOLDER">
+        <File Id="ReadmeFileItem" Source="$(var.ReadmePath)" KeyPath="yes" />
+      </Component>
+      <Component Id="StartMenuShortcut" Directory="AppMenuFolder">
+        <Shortcut Id="StartMenuLink" Name="UNTITLED TOOLS" Description="Save audio from untitled.stream projects"
+                  Target="[INSTALLFOLDER]untitled-tools.exe" WorkingDirectory="INSTALLFOLDER" Icon="AppIcon.ico" />
+        <RemoveFolder Id="RemoveAppMenuFolder" On="uninstall" />
+        <RegistryValue Root="HKCU" Key="Software\UNTITLED TOOLS" Name="StartMenuShortcut" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+      <Component Id="DesktopShortcut" Directory="DesktopFolder">
+        <Shortcut Id="DesktopLink" Name="UNTITLED TOOLS" Description="Save audio from untitled.stream projects"
+                  Target="[INSTALLFOLDER]untitled-tools.exe" WorkingDirectory="INSTALLFOLDER" Icon="AppIcon.ico" />
+        <RegistryValue Root="HKCU" Key="Software\UNTITLED TOOLS" Name="DesktopShortcut" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>
